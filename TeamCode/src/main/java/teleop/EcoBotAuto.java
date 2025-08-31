@@ -38,9 +38,9 @@ public class EcoBotAuto extends OpMode {
 
     private double link1Step = 0.002, link2Step = 0.002, rotationStep = 0.005;
     private static final double[][] H = {
-            {2.67590102, 0.619089595, -1004.86983}, // row 0
-            {0.175664699, 0.496868316, 1897.11795}, // row 1
-            {0.000440004881, 0.0146746602, 1.0}     // row 2
+            {2.67590102, 0.619089595, -1004.86983},
+            {0.175664699, 0.496868316, 1897.11795},
+            {0.000440004881, 0.0146746602, 1.0}
     };
 
     public enum Mode {
@@ -307,7 +307,6 @@ public class EcoBotAuto extends OpMode {
                     link3Done = true;
                 }
 
-                // Only advance when BOTH are done
                 if (link1Done && link2Done && link3Done) {
                     setState(2);
                 }

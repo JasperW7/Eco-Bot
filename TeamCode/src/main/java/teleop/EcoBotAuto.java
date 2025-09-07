@@ -315,8 +315,13 @@ public class EcoBotAuto extends OpMode {
             case 2:
                 bucketPos = targetBucket;
                 basePos = targetBase;
-                rotationPos = targetRotation;
-                setState(3);
+                if (Math.abs(rotationPos - targetRotation) > rotationStep) {
+                    if (rotationPos < targetRotation) rotationPos += rotationStep;
+                    else rotationPos -= rotationStep;
+                } else {
+                    rotationPos = targetRotation;
+                    setState(3);
+                }
                 break;
             case 3:
                 if (timer.getElapsedTimeSeconds()>1){

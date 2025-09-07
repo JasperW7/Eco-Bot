@@ -36,7 +36,7 @@ public class EcoBotAuto extends OpMode {
     private double targetBase, targetLink1, targetLink2, targetRotation, targetClaw, targetBucket;
     private double currX, currY;
 
-    private double link1Step = 0.002, link2Step = 0.002, rotationStep = 0.005;
+    private double link1Step = 0.002, link2Step = 0.002, rotationStep = 0.01,clawStep = 0.01;
     private static final double[][] H = {
             {2.67590102, 0.619089595, -1004.86983},
             {0.175664699, 0.496868316, 1897.11795},
@@ -299,11 +299,11 @@ public class EcoBotAuto extends OpMode {
                     link2Done = true;
                 }
 
-                if (Math.abs(rotationPos - targetRotation) > rotationStep) {
-                    if (rotationPos < targetRotation) rotationPos += rotationStep;
+                if (Math.abs(rotationPos - Values.clawRotAfterDropoff) > rotationStep) {
+                    if (rotationPos < Values.clawRotAfterDropoff) rotationPos += rotationStep;
                     else rotationPos -= rotationStep;
                 } else {
-                    rotationPos = targetRotation;
+                    rotationPos = Values.clawRotAfterDropoff;
                     link3Done = true;
                 }
 
@@ -315,12 +315,18 @@ public class EcoBotAuto extends OpMode {
             case 2:
                 bucketPos = targetBucket;
                 basePos = targetBase;
+                rotationPos = targetRotation;
                 setState(3);
                 break;
             case 3:
-                if (timer.getElapsedTimeSeconds()>0.5){
-                    clawPos = targetClaw;
-                    setState(0);
+                if (timer.getElapsedTimeSeconds()>1){
+                    if (Math.abs(clawPos - targetClaw) > clawStep) {
+                        if (clawPos < targetClaw) clawPos += clawStep;
+                        else clawPos -= clawStep;
+                    } else {
+                        clawPos = targetClaw;
+                        setState(0);
+                    }
                 }
                 break;
 
